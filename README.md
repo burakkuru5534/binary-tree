@@ -13,11 +13,17 @@ nodes can either be BinaryTree nodes themselves on nil.
 Technologies used in this project:
 
 Golang
+
 Gorilla Mux
+
 Cors
+
 net/http
+
 log
+
 encoding json
+
 
 
 Test Environments:
