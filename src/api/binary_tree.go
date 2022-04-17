@@ -16,6 +16,7 @@ func BinaryTreeHandler() http.Handler {
 		//	var bTree *model.TreeNode
 		err := helper.BodyToJsonReq(r, &reqData)
 		if err != nil {
+			json.NewEncoder(w).Encode(http.StatusBadRequest)
 			panic(err)
 		}
 

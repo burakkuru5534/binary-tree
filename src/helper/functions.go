@@ -6,8 +6,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"strconv"
-	"strings"
 )
 
 func BodyToJsonReq(r *http.Request, data interface{}) error {
@@ -30,12 +28,4 @@ func MaxVal(a,b int64) int64 {
 	return b
 }
 
-func StrToInt64(aval string) int64 {
-	aval = strings.Trim(strings.TrimSpace(aval), "\n")
-	i, err := strconv.ParseInt(aval, 10, 64)
-	if err != nil {
-		return 0
-	}
-	return i
-}
 
