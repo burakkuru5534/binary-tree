@@ -7,23 +7,32 @@ import (
 	"net/http"
 )
 
+
+
 func BinaryTreeHandler() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		var reqData model.RequestBody
-	//	var bTree *model.TreeNode
-		err := helper.BodyToJsonReq(r,&reqData)
+		//	var bTree *model.TreeNode
+		err := helper.BodyToJsonReq(r, &reqData)
 		if err != nil {
 			panic(err)
 		}
 
-		var tree = &model.BinarySearchTree{}
+		myReqData := make(map[string]*model.ReqMapData, 0)
 
-		tree.InitTree(reqData)
+		for _, row := range reqData.Tree.Nodes {
 
-		tree.MaxPathSum()
+			myReqData[row.ID] = &model.ReqMapData{
+				Value:       row.Value,
+				LeftNodeID:  row.Left,
+				RightNodeID: row.Right,
+			}
+		}
 
-		json.NewEncoder(w).Encode(tree.MaxPathSum())
+		result := model.MaxPathSum(myReqData,reqData.Tree.Root)
+
+		json.NewEncoder(w).Encode(result)
 
 	})
 }

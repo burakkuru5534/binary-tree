@@ -7,7 +7,11 @@ import (
 )
 
 
-
+type ReqMapData struct {
+	Value       int64
+	LeftNodeID  null.String
+	RightNodeID null.String
+}
 
 // TreeNode class
 type TreeNode struct {
@@ -26,72 +30,40 @@ type BinarySearchTree struct {
 	lock     sync.RWMutex
 }
 
-func (tree *BinarySearchTree) InitTree(treeData RequestBody) {
 
-	for _, row := range treeData.Tree.Nodes {
+func  MaxPathSum(rd map[string]*ReqMapData,id string) int64 {
 
-		tree.InsertElement(row.ID, row.Value, row.Left, row.Right)
-	}
-
-}
-
-func (tree *BinarySearchTree) MaxPathSum() int64 {
-	if tree.rootNode == nil {
+	if rd == nil {
 		return 0
 	}
-	maxValue := tree.rootNode.value
+	maxValue := rd[id].Value
 
 	// dfs return the max sum path that starts from root
-	var dfs func(root *TreeNode) int64
-	dfs = func(root *TreeNode) int64 {
+	var dfs func(root *ReqMapData) int64
+	dfs = func(root *ReqMapData) int64 {
 		if root == nil {
 			return 0
 		}
-		left := helper.MaxVal(0, dfs(root.leftNode))
-		right := helper.MaxVal(0, dfs(root.rightNode))
-		sum := root.value + left + right
+		var leftNode *ReqMapData
+		var rightNode *ReqMapData
+
+
+		if root.LeftNodeID.Valid {
+			leftNode = rd[root.LeftNodeID.String]
+		}
+		if root.RightNodeID.Valid {
+			rightNode = rd[root.RightNodeID.String]
+		}
+		left := helper.MaxVal(0, dfs(leftNode))
+		right := helper.MaxVal(0, dfs(rightNode))
+		sum := root.Value + left + right
 		if sum > maxValue {
 			maxValue = sum
 		}
 
-		return helper.MaxVal(left, right) + root.value
+		return helper.MaxVal(left, right) + root.Value
 	}
 
-	dfs(tree.rootNode)
+	dfs(rd[id])
 	return maxValue
 }
-
-// InsertElement method
-func (tree *BinarySearchTree) InsertElement(key string, value int64, left, right null.String) {
-	tree.lock.Lock()
-	defer tree.lock.Unlock()
-
-	var treeNode *TreeNode
-	treeNode = &TreeNode{key, value, left, right, nil, nil}
-	if tree.rootNode == nil {
-		tree.rootNode = treeNode
-	} else {
-		insertTreeNode(tree.rootNode, treeNode)
-	}
-
-}
-
-// insertTreeNode method
-func insertTreeNode(rootNode *TreeNode, newTreeNode *TreeNode) {
-
-	if newTreeNode.value < rootNode.value {
-		if rootNode.leftNode == nil {
-			rootNode.leftNode = newTreeNode
-		} else {
-			insertTreeNode(rootNode.leftNode, newTreeNode)
-		}
-	}else {
-		if rootNode.rightNode == nil {
-			rootNode.rightNode = newTreeNode
-		} else {
-			insertTreeNode(rootNode.rightNode, newTreeNode)
-		}
-	}
-
-}
-
