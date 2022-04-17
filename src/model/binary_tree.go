@@ -15,7 +15,6 @@ type TreeNode struct {
 	value int64
 	left  null.String
 	right null.String
-
 	leftNode  *TreeNode
 	rightNode *TreeNode
 }
