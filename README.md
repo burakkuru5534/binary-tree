@@ -1,4 +1,4 @@
-# binary-tree
+﻿# binary-tree
 
 ## Introduction
 
@@ -13,17 +13,24 @@ nodes can either be BinaryTree nodes themselves on nil.
 Technologies used in this project:
 
 Golang
+Gorilla Mux
+Cors
+net/http
+log
+encoding json
+
 
 Test Environments:
 
-postman,
-golang testing libary
+postman
+golang testing
 
 ## Problem solution
 
 We take the json from the request's body and we unmarshall it to our struct.
 
 Sample Input:
+```json
 {
 "tree": {
 "nodes": [
@@ -38,8 +45,9 @@ Sample Input:
 "root": "1"
 }
 }
+```
 
-After that we create a map string requestData to generate our tree and calculate max path sum.
+After that we create a map string from our struct to generate our tree and calculate max path sum.
 
 Then, we used a function which is calculate the max path sum of the tree.
 

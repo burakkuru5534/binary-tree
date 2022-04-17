@@ -3,7 +3,6 @@ package model
 import (
 	"example.com/m/src/helper"
 	"gopkg.in/guregu/null.v4"
-	"sync"
 )
 
 
@@ -12,24 +11,6 @@ type ReqMapData struct {
 	LeftNodeID  null.String
 	RightNodeID null.String
 }
-
-// TreeNode class
-type TreeNode struct {
-	key   string
-	value int64
-	left  null.String
-	right null.String
-
-	leftNode  *TreeNode
-	rightNode *TreeNode
-}
-
-// BinarySearchTree class
-type BinarySearchTree struct {
-	rootNode *TreeNode
-	lock     sync.RWMutex
-}
-
 
 func  MaxPathSum(rd map[string]*ReqMapData,id string) int64 {
 
