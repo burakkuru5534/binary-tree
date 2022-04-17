@@ -57,6 +57,8 @@ After that we create a map string from our struct to generate our tree and calcu
 
 Then, we used a function which is calculate the max path sum of the tree.
 
+We write a test for MaxPathSum function and test it for three different tree. Tests are passed with success.
+
 ### Usage Example
 
 Method: POST
